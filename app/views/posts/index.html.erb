@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-5 profile pull-left">
+
+            <h3>Hello,
+                <b><%= @user.user_name %>!</b>
+            </h3>
+            <img src="https://s-media-cache-ak0.pinimg.com/originals/a6/90/dc/a690dc7afd552e55e74c12f99e327774.png" class="img-responsive" alt="avatar"/>
+            <br>
+            <p>Followers:
+                <%= @user.followers(User).count %>
+            </p>
+        </div>
+        <div class="col-xs-6 feed pull-right">
+            <%= render 'partials/form' %>
+
+            <% @posts.each do |post| %>
+
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <div class="post">
+
+                        <p>
+                            <b>
+                                <%= "@" + post.user.user_name %>
+                            </b>
+                          <div class="follow">
+                            <%= link_to (current_user.follows?(post.user) ? 'Unfollow' : 'Follow'), toggle_follow_path(user_id: post.user.id) %>
+                          </div>
+                        </p>
+
+                        <p><%= post.content %></p>
+
+                        <%= link_to (current_user.likes?(post) ? icon('heart') : icon('heart-o')), toggle_like_path(post_id: post.id) %>
+
+                        <%= post.likers(User).count %>
+
+                        <% if post.user.id == current_user.id %>
+                        <%= link_to icon('eye'), post %>
+                        |
+                        <%= link_to icon('pencil'), edit_post_path(post) %>
+                        |
+                        <%= link_to icon('trash'), post, method: :delete, data: { confirm: 'Are you sure?' } %>
+                        <% else %>
+                        <%= link_to icon('eye'), post %>
+                        <% end %>
+                      <%= post.created_at %>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<br>

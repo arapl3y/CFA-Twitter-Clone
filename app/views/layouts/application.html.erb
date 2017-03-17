@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Meower</title>
+        <%= csrf_meta_tags %>
+
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    </head>
+
+    <body>
+        <%= render 'partials/navbar' %>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4 col-xs-offset-4 text-center">
+              <% flash.each do |name, msg| %>
+              <%= content_tag :div, msg, class: [:alert, alert_for(name)] %>
+              <% end %>
+            </div>
+          </div>
+            <%= yield %>
+        </div>
+    </body>
+</html>
